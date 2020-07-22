@@ -6,7 +6,6 @@ module.exports = (app) => {
   app.get('/', (req, res) => {
     Namba.find({}).lean()
   .then(nambas => {
-    console.log(nambas)
     res.render("namba-index", { nambas });
   })
   .catch(err => {

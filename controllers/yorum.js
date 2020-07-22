@@ -15,7 +15,7 @@ app.post("/nambas/:nambaId/yorums", function(req, res) {
       return Namba.findById(req.params.nambaId);
     })
     .then(namba => {
-      namba.yorums.push(yorum);
+      namba.yorums.unshift(yorum);
       return namba.save();
     })
     .then(namba => {
