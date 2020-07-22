@@ -44,4 +44,15 @@ module.exports = (app) => {
     });
 });
 
+  // SUBREDDIT
+app.get("/n/:subnamba", function(req, res) {
+  Namba.find({ subnamba: req.params.subnamba })
+    .then(nambas => {
+      res.render("namba-index", { nambas});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 };
