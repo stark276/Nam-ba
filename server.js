@@ -27,6 +27,7 @@ app.set('view engine', 'handlebars');
 require('./data/namba-db');
 
 require('./controllers/nambas.js')(app);
+require('./controllers/yorum.js')(app);
 
 
 app.listen(3000, () => {

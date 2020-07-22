@@ -34,15 +34,13 @@ module.exports = (app) => {
 
   app.get("/nambas/:id", function(req, res) {
   // LOOK UP THE POST
-  Namba.findById(req.params.id)
-    .then(namba => {
-      // console.log(namba)
-      res.render("nambas-show", { namba });
+  // LOOK UP THE POST
+Namba.findById(req.params.id).populate('yorums').then((namba) => {
+  res.render('nambas-show', { namba })
+  }).catch((err) => {
+  console.log(err.message)
     })
-    .catch(err => {
-      console.log(err.message);
-    });
-});
+  });
 
   // SUBREDDIT
 app.get("/n/:subnamba", function(req, res) {

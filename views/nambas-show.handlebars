@@ -3,5 +3,15 @@
     <a href="{{namba.url}}" class="lead">{{namba.title}}</a>
     <p>{{namba.content}}</p>
     <div class="text-right">{{this.subnamba}}</div>
+    <form action="/nambas/{{namba._id}}/yorums" method="post">
+    <textarea class='form-control' name="content" placeholder="Comment"></textarea>
+    <div class="text-right">
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+   {{#each namba.yorums}}
+  {{this.content}}
+{{/each}}
   </div>
+ 
 </div>

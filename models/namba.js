@@ -5,7 +5,8 @@ const NambaSchema = new Schema({
   title: { type: String},
   url: { type: String },
   content: { type: String },
-  subnamba: { type: String }
+  subnamba: { type: String },
+  yorums: [{ type: Schema.Types.ObjectId, ref: 'Yorum' }]
 });
 
 module.exports = mongoose.model("Namba", NambaSchema);
