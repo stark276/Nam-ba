@@ -6,7 +6,8 @@ const UserSchema = new Schema({
   createdAt: { type: Date },
   updatedAt: { type: Date },
   password: { type: String},
-  username: { type: String}
+  username: { type: String},
+  nambas : [{ type: Schema.Types.ObjectId, ref: "Namba" }]
 });
 
 // Must use function here! ES6 => functions do not bind this!

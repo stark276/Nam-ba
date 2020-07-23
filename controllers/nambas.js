@@ -1,4 +1,5 @@
 const Namba = require('../models/namba');
+const User = require('../models/user');
 
 
 module.exports = (app) => {
@@ -6,7 +7,7 @@ module.exports = (app) => {
   app.get('/', (req, res) => {
     var currentUser = req.user;
 
-    Namba.find({}).lean()
+    Namba.find({}).populate('author')
   .then(nambas => {
     res.render("namba-index", { nambas, currentUser });
   })
@@ -21,26 +22,34 @@ module.exports = (app) => {
  })
 
   // CREATE
-  app.post('/nambas/new', (req, res) => {
-    if (req.user) {
-    // INSTANTIATE INSTANCE OF POST MODEL
-    const namba = new Namba(req.body);
+    app.post("/nambas/new", (req, res) => {
+        if (req.user) {
+            var namba = new Namba(req.body);
+            namba.author = req.user._id;
 
-    // SAVE INSTANCE OF POST MODEL TO DB
-    namba.save((err) => {
-      // REDIRECT TO THE ROOT
-      console.log(err)
-      return res.redirect(`/`);
-    })
-    } else {
-    return res.status(401); // UNAUTHORIZED
-  }
-  });
-
+            namba
+                .save()
+                .then(namba => {
+                    return User.findById(req.user._id);
+                })
+                .then(user => {
+                    user.nambas.unshift(namba);
+                    user.save();
+                    // REDIRECT TO THE NEW namba
+                    res.redirect(`/nambas/${namba._id}`);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
+        } else {
+            return res.status(401); // UNAUTHORIZED
+        }
+    });
+// LOOK UP THE namba
   app.get("/nambas/:id", function(req, res) {
-  // LOOK UP THE POST
-  // LOOK UP THE POST
-Namba.findById(req.params.id).populate('yorums').then((namba) => {
+  // LOOK UP THE namba
+Namba.findById(req.params.id).populate({path:'yorums', populate:{path:'author'}}).populate('author')
+.then((namba) => {
   res.render('nambas-show', { namba })
   }).catch((err) => {
   console.log(err.message)
@@ -49,7 +58,7 @@ Namba.findById(req.params.id).populate('yorums').then((namba) => {
 
   // SUBREDDIT
 app.get("/n/:subnamba", function(req, res) {
-  Namba.find({ subnamba: req.params.subnamba })
+  Namba.find({ subnamba: req.params.subnamba }).populate('author')
     .then(nambas => {
       res.render("namba-index", { nambas});
     })

@@ -3,6 +3,7 @@
     <a href="{{namba.url}}" class="lead">{{namba.title}}</a>
     <p>{{namba.content}}</p>
     <div class="text-right">{{this.subnamba}}</div>
+    <p>{{namba.author.username}}</p>
     <form action="/nambas/{{namba._id}}/yorums" method="post">
     <textarea class='form-control' name="content" placeholder="Comment"></textarea>
     <div class="text-right">
@@ -13,6 +14,7 @@
  <h2>Comments</h2>
  {{#each namba.yorums}}
   <p>{{this.content}}</p>
+  <p class="text-right">{{this.author.username}}</p>
   <hr>
  {{/each}}
 </div>
