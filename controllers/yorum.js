@@ -12,12 +12,16 @@ app.post("/nambas/:nambaId/yorums", function(req, res) {
   yorum
     .save()
     .then(yorum => {
-      return Namba.findById(req.params.nambaId);
+      return Promise.all([
+                    Namba.findById(req.params.nambaId)
+                ]);
+      // return Namba.findById(req.params.nambaId);
     })
-    .then(namba => {
+    .then(([namba, user]) => {
+      
       namba.yorums.unshift(yorum);
-      return namba.save();
-    })
+      return Promise.all([namba.save()]);
+      })
     .then(namba => {
       res.redirect(`/nambas/${namba._id}`);
     })
@@ -27,3 +31,6 @@ app.post("/nambas/:nambaId/yorums", function(req, res) {
    });
   };
 
+// then(namba => {
+    //   namba.yorums.unshift(yorum);
+    //   return namba.save();

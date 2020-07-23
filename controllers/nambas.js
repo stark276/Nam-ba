@@ -45,10 +45,12 @@ module.exports = (app) => {
             return res.status(401); // UNAUTHORIZED
         }
     });
-// LOOK UP THE namba
+// SHOW
   app.get("/nambas/:id", function(req, res) {
-  // LOOK UP THE namba
-Namba.findById(req.params.id).populate({path:'yorums', populate:{path:'author'}}).populate('author')
+    var currentUser = req.user;
+// LOOK UP THE namba
+  Namba.findById(req.params.id).populate('yorums').lean()
+// populate({path:'yorums', populate:{path:'author'}}).populate('author')
 .then((namba) => {
   res.render('nambas-show', { namba })
   }).catch((err) => {
@@ -58,7 +60,9 @@ Namba.findById(req.params.id).populate({path:'yorums', populate:{path:'author'}}
 
   // SUBREDDIT
 app.get("/n/:subnamba", function(req, res) {
-  Namba.find({ subnamba: req.params.subnamba }).populate('author')
+  var currentUser = req.user;
+  Namba.find({ subnamba: req.params.subnamba }).lean()
+  // populate('author')
     .then(nambas => {
       res.render("namba-index", { nambas});
     })

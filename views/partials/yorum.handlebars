@@ -1,0 +1,8 @@
+<div class="col-xs-12 comment-indent">
+    <p>{{yorum.content}}</p>
+    <p class="text-right">{{yorum.author.username}}</p>
+    <a href="/nambas/{{nambaId}}/yorums/{{yorum._id}}/replies/new">Reply</a>
+    {{#each yorum.yorums}}
+        {{> yorum yorum=this nambaId=../nambaId}}
+    {{/each}}
+</div>

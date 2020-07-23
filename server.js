@@ -45,6 +45,7 @@ require('./data/namba-db');
 require('./controllers/nambas.js')(app);
 require('./controllers/yorum.js')(app);
 require('./controllers/auth.js')(app);
+require('./controllers/replies.js')(app);
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!')

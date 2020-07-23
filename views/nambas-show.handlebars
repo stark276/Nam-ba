@@ -12,11 +12,10 @@
   </form>
   <div>
  <h2>Comments</h2>
+ 
  {{#each namba.yorums}}
-  <p>{{this.content}}</p>
-  <p class="text-right">{{this.author.username}}</p>
-  <hr>
- {{/each}}
+  {{> yorum yorum=this nambaId=../namba._id}}
+{{/each}}
 </div>
   </div>
   
